@@ -1,0 +1,53 @@
+#include "msobject.ch"
+#include "totvs.framework.treports.integratedprovider.th"
+
+namespace custom.materiais.produtos.integratedprovider
+//https://tdn.totvs.com/pages/releaseview.action?pageId=625448935
+//https://centraldeatendimento.totvs.com/hc/pt-br/articles/21731391477655-Descontinua%C3%A7%C3%A3o-de-Relat%C3%B3rios-Backoffice-Linha-Protheus
+
+@totvsFrameworkTReportsIntegratedProvider(active=.T., team="SIGACOM", tables="SA1", name="Materiais", country="ALL", initialRelease="12.1.2210")
+class SA1TReportsBusinessObject from totvs.framework.treports.integratedprovider.IntegratedProvider
+	public method new() as object
+	public method getData() as object
+	public method getSchema() as object
+endclass
+
+method new() class SA1TReportsBusinessObject
+	_Super:new()
+    //Define a Área
+	self:appendArea("Compras")
+
+    //Define o nome do Objeto de Negócio
+	self:setDisplayName("Clientes (customizado)")
+
+    //Define a descrição do Objeto de Negócio
+	self:setDescription("Clientes do Protheus (customizado)")
+
+return self
+
+method getData() as object class SA1TReportsBusinessObject
+	local cQuery as character
+
+    //Define a quantidade máxima por página (Default 100)
+	self:setPageSize(200)
+
+    //Define a query do Objeto de Negócio
+	cQuery := "SELECT #QueryFields# FROM " + RetSQLName("SA1") +  " WHERE #QueryWhere#"
+	self:setQuery(cQuery)
+
+    //Define o campo de ordenação da query
+	self:setOrder("A1_COD")
+
+    //Define o where da query
+	self:setWhere("A1_FILIAL = '"+ FWxFilial('SA1') +"' AND D_E_L_E_T_ = ' '")
+
+return self:oData
+
+method getSchema() as object class SA1TReportsBusinessObject
+
+	self:addProperty("Filial", "Filial", "string", "Filial", "A1_FILIAL")
+	self:addProperty("Codigo", "Codigo", "string", "Código", "A1_COD")
+	self:addProperty("Loja", "Loja", "string", "Descricao","A1_LOJA")
+	self:addProperty("Nome", "Nome", "string", "Nome","A1_NOME")
+
+return self:oSchema
