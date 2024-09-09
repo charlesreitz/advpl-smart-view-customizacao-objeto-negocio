@@ -64,5 +64,6 @@ method getSchema() as object class SB1TReportsBusinessObject
 	self:addProperty("Tipo", "Tipo", "string", "Tipo","B1_TIPO")
 	self:addProperty("Unidade", "Unidade de medida", "string", "Unidade","B1_UM")
 	self:addProperty("Revisao", "Revisao", "date", "Revisao","B1_UREV")
+	// self:addProperty("data_natal", "Data do nata", "date", "Data do Natal","data_natal",,,"'20231225' data_natal")
 
 return self:oSchema

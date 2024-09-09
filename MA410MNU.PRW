@@ -11,7 +11,7 @@ User Function MA410MNU()
 
 
 	aadd(aRotina,{'Imprimir Smartview Com Interface','U_PrintSM' , 0 , 2,0,NIL})
-	aadd(aRotina,{'Imprimir Smartview Sem Interface','FWMsgRun( /* Obj_tela */ , {|oSay| U_PrintSI } , "Gerando Impressão" , "Aguarde gerando impressão" )' , 0 , 2,0,NIL})
+	aadd(aRotina,{'Imprimir Smartview Sem Interface','U_PrintSI' , 0 , 2,0,NIL})
 
 Return
 
@@ -34,6 +34,12 @@ Return
 
 
 User Function PrintSI()
+	
+	FWMsgRun( /* Obj_tela */ , {|oSay| PrintSI() } , "Gerando Relatório" , "Aguarde")
+
+Return
+
+Static Function PrintSI()
 	Local cSpool 			:= SuperGetMV('MV_RELT',,"\SPOOL\")
 	Local cFile 			:= FWUUIDV4()
 	Local cExtensao 		:= 'pdf'
@@ -43,11 +49,11 @@ User Function PrintSI()
 	If File(cFullFilePath)
 		FErase(cFullFilePath)
 	EndIf
-	//Para geração sem interface sempre deverá ser setado um recurso único
+	//Para geração sem interface sempre deverá ser setado um recurso único -  - 
 	oSmartView := totvs.framework.smartview.callSmartView():new("custom.meucliente.faturamento.trp", "report")
 	oSmartView:setNoInterface(.T.)
 	oSmartView:setParam("MV_PAR01",  "000001")
-	oSmartView:setParam("MV_PAR02", "ZZZZZ")
+	oSmartView:setParam("MV_PAR02", "000001")
 	oSmartView:setPrintType(1)
 
 	jPrint := jsonObject():new()
@@ -79,3 +85,4 @@ User Function PrintSI()
 		EndIf
 	EndIf
 Return
+
