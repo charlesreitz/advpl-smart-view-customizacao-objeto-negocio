@@ -2,7 +2,7 @@
 	
 	Este ponto de entrada pode ser utilizado para inserir novas opções no array aRotina.
 
-	@author TSCB87 - Leandro Inocencio
+	@author -
 	@since 29/10/2020
 	@see https://tdn.totvs.com/display/public/PROT/MA410MNU
 /*/
